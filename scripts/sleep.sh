@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
-WEBHOOK_URL=https://trigger.macrodroid.com/a8ae894a-2c32-42ee-9cbb-a55fc477c331/jarvis
+source .env
 
-curl -X POST "${WEBHOOK_URL}"
+echo -n "Sleep Jarvis... "
+curl -X POST "${JARVIS_SLEEP_WEBHOOK}"
+
+echo

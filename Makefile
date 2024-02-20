@@ -6,4 +6,4 @@ wakeup:
 	@bash scripts/wakeup.sh
 
 sleep:
-	@bash scripts/wakeup.sh
+	@bash scripts/sleep.sh
