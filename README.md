@@ -9,3 +9,7 @@ ovviamente tutto basato su cio che gia esiste
 ## Riferimenti 
 
 - https://www.hackster.io/group-5/debuggy-ducky-bf1a01
+
+## TODO
+
+- Montare un filtro passa voce prema dell'input microfonico in modo da ridurre i rumori ambientali in ingesso al processore
