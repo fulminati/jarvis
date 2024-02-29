@@ -13,3 +13,13 @@ ovviamente tutto basato su cio che gia esiste
 ## TODO
 
 - Montare un filtro passa voce prema dell'input microfonico in modo da ridurre i rumori ambientali in ingesso al processore
+
+
+## Appunti
+
+- sperimentare con https://app.autocodepro.com/
+- https://github.com/gpt-engineer-org/gpt-engineer/blob/main/ROADMAP.md
+- creare uno strumento per la gestione dei lavori portati avanti dall'AI deve essere una dashboard di monitoraggio in cui si creano le commesse, (cioè i lavori da svolgere) e poi si da il play e l'AI processa quel compito
+in questo modo si crea un sistema che permette di sviluppare progetti in autonomia, valutare usare https://github.com/makeplane/plane
+- provare ad usare https://www.phind.com/
+  
