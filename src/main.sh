@@ -32,6 +32,9 @@ main() {
     open-android-device)
       jarvis_android_device_open "$2"
       ;;
+    log-android-device)
+      jarvis_android_device_log "$2"
+      ;;
     *)
       echo "Unknown command: $1"
       ;;
