@@ -26,3 +26,6 @@ ovviamente tutto basato su cio che gia esiste
 in questo modo si crea un sistema che permette di sviluppare progetti in autonomia, valutare usare https://github.com/makeplane/plane
 - provare ad usare https://www.phind.com/
   
+## Resources
+
+- Sounds: <https://www.101soundboards.com/boards/33948-windows-xp-sounds>

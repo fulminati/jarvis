@@ -1,7 +1,4 @@
 
-#ANDROID_DEVICE_IP=192.168.144.7
-#ADB_PORT=5555
-
 jarvis_android_device_open() {
   local android_device_ip
   local adb_port

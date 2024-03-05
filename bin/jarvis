@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ## BP010: Release metadata
 ## @build_type: bin
-## @build_date: 2024-03-05T09:50:22Z
+## @build_date: 2024-03-05T10:22:17Z
 set -e
 extern() {
   extern=$1
@@ -62,9 +62,6 @@ main() {
   esac
 }
 
-#ANDROID_DEVICE_IP=192.168.144.7
-#ADB_PORT=5555
-
 jarvis_android_device_open() {
   local android_device_ip
   local adb_port
@@ -107,6 +104,18 @@ jarvis_android_device_setup() {
   adb_port=5555
 
   adb --serial "${android_device_ip}:${adb_port}" shell locksettings set-disabled true && true
+}
+
+jarvis_android_device_visit() {
+  local android_device_ip
+  local adb_port
+  local url
+
+  android_device_ip="${JARVIS_IP}"
+  adb_port=5555
+  url="$1"
+
+  adb -s "${android_device_ip}:${adb_port}" shell am start -a android.intent.action.VIEW -d "${url}" && true
 }
 
 jarvis_sleep() {
