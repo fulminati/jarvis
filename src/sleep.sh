@@ -1,8 +1,7 @@
-#!/usr/bin/env bash
 
-source .env
+jarvis_sleep() {
+  echo -n "Sleep Jarvis... "
+  curl -X POST "${JARVIS_SLEEP_WEBHOOK}"
 
-echo -n "Sleep Jarvis... "
-curl -X POST "${JARVIS_SLEEP_WEBHOOK}"
-
-echo
+  echo " Confirming Jarvis is asleep..."
+}

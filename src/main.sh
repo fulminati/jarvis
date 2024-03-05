@@ -18,18 +18,17 @@ main() {
   source "$env_file"
 
   case "$1" in
-    "wakeup")
-      lanspeed "$2"
+    wakeup)
+      jarvis_wakeup "$2"
       ;;
-    "sleep")
-      settings-daemon
+    sleep)
+      jarvis_sleep "$2"
       ;;
-    "open-android-device")
-      linepush "$2"
+    open-android-device)
+      jarvis_android_device_open "$2"
       ;;
     *)
       echo "Unknown command: $1"
       ;;
   esac
-
 }
