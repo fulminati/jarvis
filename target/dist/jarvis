@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+## BP010: Release metadata
+## @build_type: bin
+## @build_date: 2024-03-05T09:33:21Z
+set -e
+extern() {
+  extern=$1
+}
+legacy() {
+  legacy=$1
+}
+module() {
+  module=$1
+}
+public() {
+  public=$1
+}
+use() {
+  use=$1
+}
+embed() {
+  embed=$1
+}
+## BP004: Compile the entrypoint
+
+module android_device
+module sleep
+module wakeup
+
+main() {
+  echo "Hello World!"
+
+  local env_file
+
+  if [ -f .env ]; then
+    env_file="$PWD/.env"
+  else
+    env_file="$HOME/.jarvis"
+  fi
+
+  # shellcheck disable=SC1090
+  source "$env_file"
+
+  case "$1" in
+    wakeup)
+      jarvis_wakeup "$2"
+      ;;
+    sleep)
+      jarvis_sleep "$2"
+      ;;
+    open-android-device)
+      jarvis_android_device_open "$2"
+      ;;
+    *)
+      echo "Unknown command: $1"
+      ;;
+  esac
+}
+
+#ANDROID_DEVICE_IP=192.168.144.7
+#ADB_PORT=5555
+
+jarvis_android_device_open() {
+  echo "Starting adb server..."
+  adb tcpip "${ADB_PORT}" && true
+  adb connect "${ANDROID_DEVICE_IP}:${ADB_PORT}" && true
+  adb shell locksettings set-disabled true && true
+
+  echo "Starting scrcpy terminal over WiFi..."
+  scrcpy --serial "${ANDROID_DEVICE_IP}:${ADB_PORT}" --bit-rate 4M --max-size 1480 && true
+
+  #echo "Starting scrcpy terminal over USB..."
+  #scrcpy --bit-rate 4M --max-size 1480 && true
+}
+
+jarvis_android_device_setup() {
+  adb --serial "${ANDROID_DEVICE_IP}:${ADB_PORT}" shell locksettings set-disabled true && true
+}
+jarvis_sleep() {
+  echo -n "Sleep Jarvis... "
+  curl -X POST "${JARVIS_SLEEP_WEBHOOK}"
+
+  echo " Confirming Jarvis is asleep..."
+}
+
+jarvis_wakeup() {
+  echo -n "Waking up Jarvis... "
+  curl -X POST "${JARVIS_WAKEUP_WEBHOOK}"
+
+  echo " Confirming Jarvis is awake..."
+}
+## BP005: Execute the entrypoint
+main "$@"
