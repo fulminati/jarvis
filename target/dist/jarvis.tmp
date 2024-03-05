@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ## BP010: Release metadata
 ## @build_type: bin
-## @build_date: 2024-03-05T09:33:21Z
+## @build_date: 2024-03-05T09:38:00Z
 set -e
 extern() {
   extern=$1
@@ -61,21 +61,34 @@ main() {
 #ADB_PORT=5555
 
 jarvis_android_device_open() {
+  local android_device_ip
+  local adb_port
+
+  android_device_ip="${JARVIS_IP}"
+  adb_port=5555
+
   echo "Starting adb server..."
-  adb tcpip "${ADB_PORT}" && true
-  adb connect "${ANDROID_DEVICE_IP}:${ADB_PORT}" && true
+  adb tcpip "${adb_port}" && true
+  adb connect "${android_device_ip}:${adb_port}" && true
   adb shell locksettings set-disabled true && true
 
   echo "Starting scrcpy terminal over WiFi..."
-  scrcpy --serial "${ANDROID_DEVICE_IP}:${ADB_PORT}" --bit-rate 4M --max-size 1480 && true
+  scrcpy --serial "${android_device_ip}:${adb_port}" --bit-rate 4M --max-size 1480 && true
 
   #echo "Starting scrcpy terminal over USB..."
   #scrcpy --bit-rate 4M --max-size 1480 && true
 }
 
 jarvis_android_device_setup() {
-  adb --serial "${ANDROID_DEVICE_IP}:${ADB_PORT}" shell locksettings set-disabled true && true
+  local android_device_ip
+  local adb_port
+
+  android_device_ip="${JARVIS_IP}"
+  adb_port=5555
+
+  adb --serial "${android_device_ip}:${adb_port}" shell locksettings set-disabled true && true
 }
+
 jarvis_sleep() {
   echo -n "Sleep Jarvis... "
   curl -X POST "${JARVIS_SLEEP_WEBHOOK}"

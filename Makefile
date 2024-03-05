@@ -2,7 +2,7 @@
 build:
 	@mush build --release
 
-install:
+install: build
 	@mush install --path .
 
 open-android-device:
