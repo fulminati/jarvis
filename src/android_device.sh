@@ -15,10 +15,25 @@ jarvis_android_device_open() {
   adb shell locksettings set-disabled true && true
 
   echo "Starting scrcpy terminal over WiFi..."
-  scrcpy --serial "${android_device_ip}:${adb_port}" --bit-rate 4M --max-size 1480 && true
+  jarvis_android_device_start &
+
+  sleep 3
+
+  echo "Android Device IP: ${android_device_ip}"
+  echo
 
   #echo "Starting scrcpy terminal over USB..."
   #scrcpy --bit-rate 4M --max-size 1480 && true
+}
+
+jarvis_android_device_start() {
+  local android_device_ip
+  local adb_port
+
+  android_device_ip="${JARVIS_IP}"
+  adb_port=5555
+
+  scrcpy --serial "${android_device_ip}:${adb_port}" --bit-rate 4M --max-size 1480 && true
 }
 
 jarvis_android_device_setup() {
@@ -29,4 +44,16 @@ jarvis_android_device_setup() {
   adb_port=5555
 
   adb --serial "${android_device_ip}:${adb_port}" shell locksettings set-disabled true && true
+}
+
+jarvis_android_device_visit() {
+  local android_device_ip
+  local adb_port
+  local url
+
+  android_device_ip="${JARVIS_IP}"
+  adb_port=5555
+  url="$1"
+
+  adb -s "${android_device_ip}:${adb_port}" shell am start -a android.intent.action.VIEW -d "${url}" && true
 }

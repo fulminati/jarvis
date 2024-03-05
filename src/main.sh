@@ -26,6 +26,9 @@ main() {
     sleep)
       jarvis_sleep "$2"
       ;;
+    visit)
+      jarvis_android_device_visit "$2"
+      ;;
     open-android-device)
       jarvis_android_device_open "$2"
       ;;

@@ -13,3 +13,6 @@ wakeup:
 
 sleep:
 	@mush run -- sleep
+
+visit:
+	@mush run -- visit $(url)
