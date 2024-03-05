@@ -1,4 +1,7 @@
 
+build:
+	@mush build --release
+
 open-android-device:
 	@mush run -- open-android-device
 
