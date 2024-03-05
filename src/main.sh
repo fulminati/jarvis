@@ -8,11 +8,13 @@ main() {
 
   local env_file
 
-  if [ -f .env ]; then
-    env_file="$PWD/.env"
+  if [ -f .jarvis ]; then
+    env_file="$PWD/.jarvis"
   else
     env_file="$HOME/.jarvis"
   fi
+
+  echo "Loading environment variables from $env_file"
 
   # shellcheck disable=SC1090
   source "$env_file"
