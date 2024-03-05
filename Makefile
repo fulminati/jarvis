@@ -1,9 +1,9 @@
 
 open-android-device:
-	@bash scripts/open-android-device.sh
+	@mush run -- open-android-device
 
 wakeup:
-	@bash scripts/wakeup.sh
+	@mush run -- wakeup
 
 sleep:
-	@bash scripts/sleep.sh
+	@mush run -- sleep
