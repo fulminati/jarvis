@@ -11,6 +11,12 @@ open-android-device:
 log-android-device:
 	@mush run -- log-android-device
 
+play-sound-android-device:
+	@mush run -- play-sound-android-device
+
+list-files-android-device:
+	@mush run -- list-files-android-device
+
 wakeup:
 	@mush run -- wakeup
 

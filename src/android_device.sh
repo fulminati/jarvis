@@ -65,3 +65,27 @@ jarvis_android_device_log() {
 
   adb -s "${android_device_ip}:${adb_port}" logcat
 }
+
+jarvis_android_device_play_sound() {
+  local android_device_ip
+  local adb_port
+  local sound_file
+
+  android_device_ip="${JARVIS_IP}"
+  adb_port=5555
+  sound_file="$1"
+
+  adb -s "${android_device_ip}:${adb_port}" shell am start -a android.intent.action.VIEW -d "file:///sdcard/Menu/Menu.m3u" -t "audio/mp3"
+}
+
+jarvis_android_device_list_files() {
+  local android_device_ip
+  local adb_port
+  local sound_file
+
+  android_device_ip="${JARVIS_IP}"
+  adb_port=5555
+  sound_file="$1"
+
+  adb -s "${android_device_ip}:${adb_port}" shell 'ls /sdcard/Menu' && true
+}

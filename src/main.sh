@@ -35,6 +35,12 @@ main() {
     log-android-device)
       jarvis_android_device_log "$2"
       ;;
+    play-sound-android-device)
+      jarvis_android_device_play_sound "$2"
+      ;;
+    list-files-android-device)
+      jarvis_android_device_list_files "$2"
+      ;;
     *)
       echo "Unknown command: $1"
       ;;
