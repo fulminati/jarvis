@@ -1,26 +1,17 @@
 #!/usr/bin/env bash
-## BP010: Release metadata
-## @build_type: bin
-## @build_date: 2024-03-05T10:22:17Z
+# @BP010: Release metadata
+# @package: jarvis
+# @build_type: bin
+# @build_with: Mush 0.2.0 (2025-04-30 develop)
+# @build_date: 2025-05-03T08:24:29Z
 set -e
-extern() {
-  extern=$1
-}
-legacy() {
-  legacy=$1
-}
-module() {
-  module=$1
-}
-public() {
-  public=$1
-}
-use() {
-  use=$1
-}
-embed() {
-  embed=$1
-}
+use() { return 0; }
+extern() { return 0; }
+legacy() { return 0; }
+module() { return 0; }
+public() { return 0; }
+embed() { return 0; }
+inject() { return 0; }
 ## BP004: Compile the entrypoint
 
 module android_device
@@ -28,8 +19,6 @@ module sleep
 module wakeup
 
 main() {
-  echo "Hello World!"
-
   local env_file
 
   if [ -f .jarvis ]; then
@@ -53,8 +42,20 @@ main() {
     visit)
       jarvis_android_device_visit "$2"
       ;;
+    panel)
+      jarvis_android_device_open "$2"
+      ;;
     open-android-device)
       jarvis_android_device_open "$2"
+      ;;
+    log-android-device)
+      jarvis_android_device_log "$2"
+      ;;
+    play-sound-android-device)
+      jarvis_android_device_play_sound "$2"
+      ;;
+    list-files-android-device)
+      jarvis_android_device_list_files "$2"
       ;;
     *)
       echo "Unknown command: $1"
@@ -89,11 +90,35 @@ jarvis_android_device_open() {
 jarvis_android_device_start() {
   local android_device_ip
   local adb_port
+  local screen_x
+  local screen_y
+  local panel_width
+  local panel_height
+  local exit_code
 
   android_device_ip="${JARVIS_IP}"
   adb_port=5555
 
-  scrcpy --serial "${android_device_ip}:${adb_port}" --bit-rate 4M --max-size 1480 && true
+  panel_width=360
+  panel_height=740
+
+  screen_x=$(xrandr --current | grep '*' | uniq | awk '{print $1}' | cut -d 'x' -f1)
+  screen_y=$(xrandr --current | grep '*' | uniq | awk '{print $1}' | cut -d 'x' -f2)
+
+  echo "Screen size: ${screen_x}x${screen_y}"
+
+  scrcpy \
+    --serial "${android_device_ip}:${adb_port}" \
+    --bit-rate 4M --max-size 1480 \
+    --window-title "Jarvis" \
+    --always-on-top \
+    --window-x=$((screen_x-panel_width-10)) --window-y=$((screen_y-panel_height-120)) \
+    --window-width=${panel_width} --window-height=${panel_height} \
+    && true
+
+  exit_code=$?
+
+  echo "Scrcpy exited with code: ${exit_code}"
 }
 
 jarvis_android_device_setup() {
@@ -118,6 +143,40 @@ jarvis_android_device_visit() {
   adb -s "${android_device_ip}:${adb_port}" shell am start -a android.intent.action.VIEW -d "${url}" && true
 }
 
+jarvis_android_device_log() {
+  local android_device_ip
+  local adb_port
+  local url
+
+  android_device_ip="${JARVIS_IP}"
+  adb_port=5555
+
+  adb -s "${android_device_ip}:${adb_port}" logcat
+}
+
+jarvis_android_device_play_sound() {
+  local android_device_ip
+  local adb_port
+  local sound_file
+
+  android_device_ip="${JARVIS_IP}"
+  adb_port=5555
+  sound_file="$1"
+
+  adb -s "${android_device_ip}:${adb_port}" shell am start -a android.intent.action.VIEW -d "file:///sdcard/Menu/Menu.m3u" -t "audio/mp3"
+}
+
+jarvis_android_device_list_files() {
+  local android_device_ip
+  local adb_port
+  local sound_file
+
+  android_device_ip="${JARVIS_IP}"
+  adb_port=5555
+  sound_file="$1"
+
+  adb -s "${android_device_ip}:${adb_port}" shell 'ls /sdcard/Menu' && true
+}
 jarvis_sleep() {
   echo -n "Sleep Jarvis... "
   curl -X POST "${JARVIS_SLEEP_WEBHOOK}"

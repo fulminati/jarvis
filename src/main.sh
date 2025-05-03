@@ -4,8 +4,6 @@ module sleep
 module wakeup
 
 main() {
-  echo "Hello World!"
-
   local env_file
 
   if [ -f .jarvis ]; then
@@ -28,6 +26,9 @@ main() {
       ;;
     visit)
       jarvis_android_device_visit "$2"
+      ;;
+    panel)
+      jarvis_android_device_open "$2"
       ;;
     open-android-device)
       jarvis_android_device_open "$2"
