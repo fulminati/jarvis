@@ -26,11 +26,35 @@ jarvis_android_device_open() {
 jarvis_android_device_start() {
   local android_device_ip
   local adb_port
+  local screen_x
+  local screen_y
+  local panel_width
+  local panel_height
+  local exit_code
 
   android_device_ip="${JARVIS_IP}"
   adb_port=5555
 
-  scrcpy --serial "${android_device_ip}:${adb_port}" --bit-rate 4M --max-size 1480 && true
+  panel_width=360
+  panel_height=740
+
+  screen_x=$(xrandr --current | grep '*' | uniq | awk '{print $1}' | cut -d 'x' -f1)
+  screen_y=$(xrandr --current | grep '*' | uniq | awk '{print $1}' | cut -d 'x' -f2)
+
+  echo "Screen size: ${screen_x}x${screen_y}"
+
+  scrcpy \
+    --serial "${android_device_ip}:${adb_port}" \
+    --bit-rate 4M --max-size 1480 \
+    --window-title "Jarvis" \
+    --always-on-top \
+    --window-x=$((screen_x-panel_width-10)) --window-y=$((screen_y-panel_height-120)) \
+    --window-width=${panel_width} --window-height=${panel_height} \
+    && true
+
+  exit_code=$?
+
+  echo "Scrcpy exited with code: ${exit_code}"
 }
 
 jarvis_android_device_setup() {
