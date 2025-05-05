@@ -79,6 +79,18 @@ jarvis_android_device_visit() {
   adb -s "${android_device_ip}:${adb_port}" shell am start -a android.intent.action.VIEW -d "${url}" && true
 }
 
+jarvis_android_device_shell() {
+  local android_device_ip
+  local adb_port
+  local url
+
+  android_device_ip="${JARVIS_IP}"
+  adb_port=5555
+  url="$1"
+
+  adb -s "${android_device_ip}:${adb_port}" shell && true
+}
+
 jarvis_android_device_log() {
   local android_device_ip
   local adb_port

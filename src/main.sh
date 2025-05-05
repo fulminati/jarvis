@@ -27,11 +27,17 @@ main() {
     visit)
       jarvis_android_device_visit "$2"
       ;;
+    shell)
+      jarvis_android_device_shell "$2"
+      ;;
     panel)
       jarvis_android_device_open "$2"
       ;;
     open-android-device)
       jarvis_android_device_open "$2"
+      ;;
+    shell-android-device)
+      jarvis_android_device_shell "$2"
       ;;
     log-android-device)
       jarvis_android_device_log "$2"

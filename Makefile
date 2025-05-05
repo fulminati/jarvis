@@ -8,6 +8,9 @@ install: build
 open-android-device:
 	@mush run -- open-android-device
 
+shell-android-device:
+	@mush run -- shell-android-device
+
 log-android-device:
 	@mush run -- log-android-device
 
